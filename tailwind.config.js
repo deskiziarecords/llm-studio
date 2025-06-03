@@ -1,0 +1,72 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#f0f7ff',
+          100: '#e0eefe',
+          200: '#bae0fd',
+          300: '#7ac6fd',
+          400: '#36a7f9',
+          500: '#0e8df0',
+          600: '#0270cd',
+          700: '#0159a6',
+          800: '#064b89',
+          900: '#0a3f71',
+          950: '#072849',
+        },
+        secondary: {
+          50: '#f5f3ff',
+          100: '#ede8ff',
+          200: '#dcd5ff',
+          300: '#c3b2ff',
+          400: '#a586ff',
+          500: '#8b5cf6',
+          600: '#7c3aed',
+          700: '#6d28d9',
+          800: '#5b21b6',
+          900: '#4c1d95',
+          950: '#2e1065',
+        },
+        accent: {
+          50: '#fff1f2',
+          100: '#ffe4e6',
+          200: '#fecdd3',
+          300: '#fda4af',
+          400: '#fb7185',
+          500: '#f43f5e',
+          600: '#e11d48',
+          700: '#be123c',
+          800: '#9f1239',
+          900: '#881337',
+          950: '#4c0519',
+        },
+        dark: {
+          100: '#d5d5d5',
+          200: '#aaaaaa',
+          300: '#808080',
+          400: '#555555',
+          500: '#2b2b2b',
+          600: '#222222',
+          700: '#1a1a1a',
+          800: '#111111',
+          900: '#080808',
+          950: '#030303',
+        },
+      },
+      animation: {
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'waveform': 'waveform 1.5s ease-in-out infinite',
+      },
+      keyframes: {
+        waveform: {
+          '0%, 100%': { height: '20%' },
+          '50%': { height: '80%' },
+        },
+      },
+    },
+  },
+  plugins: [],
+};
