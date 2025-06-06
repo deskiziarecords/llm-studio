@@ -8,10 +8,17 @@ export interface Message {
 export interface ModelConfig {
   id: string;
   name: string;
-  provider: 'openai' | 'anthropic' | 'mistral' | 'meta' | 'other';
+  provider: 'openai' | 'anthropic' | 'mistral' | 'meta' | 'lmstudio' | 'ollama' | 'other'; // Added lmstudio & ollama as example local providers
   type: 'cloud' | 'local';
-  endpoint?: string;
+  endpoint?: string; // Optional custom endpoint for the model, e.g., for a self-hosted local model
 }
+
+// Note: ApiConfig is defined in src/services/api.ts.
+// For consistency if it were here, it might look like:
+// export interface ApiConfig {
+//   apiKey?: string; // API key is optional, especially for local models
+//   baseUrl?: string;
+// }
 
 export interface AppSettings {
   apiKeys: {
