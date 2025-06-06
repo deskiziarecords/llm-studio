@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore } from '../store';
-import { AppSettings } from '../types';
+import { AppSettings, ModelConfig } from '../types';
 import { motion } from 'framer-motion';
 import { Save, Key, Volume2, PaintBucket, Sliders } from 'lucide-react';
 
 export const SettingsPage: React.FC = () => {
-  const { settings, updateSettings } = useStore();
-  const [localSettings, setLocalSettings] = useState<AppSettings>({ ...settings });
+  const { settings, updateSettings, currentModel } = useStore();
+  const [localSettings, setLocalSettings] = useState<AppSettings>(settings);
   const [savedMessage, setSavedMessage] = useState(false);
+
+  // Effect to update localSettings if global settings change from elsewhere
+  // or if the settings from the store are loaded after initial component mount.
+  useEffect(() => {
+    setLocalSettings(settings);
+  }, [settings]);
   
   const handleSave = () => {
     updateSettings(localSettings);
@@ -70,28 +76,35 @@ export const SettingsPage: React.FC = () => {
       <div className="space-y-8">
         {/* API Keys */}
         <SettingsSection title="API Keys" icon={<Key className="text-primary-400" />}>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm text-gray-400 mb-1">OpenAI API Key</label>
-              <input
-                type="password"
-                value={localSettings.apiKeys['openai'] || ''}
-                onChange={(e) => updateApiKey('openai', e.target.value)}
-                placeholder="sk-..."
-                className="w-full bg-dark-700 border border-dark-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
-              />
+          {currentModel && currentModel.type === 'local' ? (
+            <div className="p-4 text-sm text-gray-400 bg-dark-700 rounded-lg">
+              API keys are not required for the selected local model ({currentModel.name}).
             </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-1">Anthropic API Key</label>
-              <input
-                type="password"
-                value={localSettings.apiKeys['anthropic'] || ''}
-                onChange={(e) => updateApiKey('anthropic', e.target.value)}
-                placeholder="sk-ant-..."
-                className="w-full bg-dark-700 border border-dark-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
-              />
+          ) : (
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-gray-400 mb-1">OpenAI API Key</label>
+                <input
+                  type="password"
+                  value={localSettings.apiKeys['openai'] || ''}
+                  onChange={(e) => updateApiKey('openai', e.target.value)}
+                  placeholder="sk-..."
+                  className="w-full bg-dark-700 border border-dark-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-400 mb-1">Anthropic API Key</label>
+                <input
+                  type="password"
+                  value={localSettings.apiKeys['anthropic'] || ''}
+                  onChange={(e) => updateApiKey('anthropic', e.target.value)}
+                  placeholder="sk-ant-..."
+                  className="w-full bg-dark-700 border border-dark-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+                />
+              </div>
+              {/* Add other API key inputs here if needed, e.g., for other cloud providers */}
             </div>
-          </div>
+          )}
         </SettingsSection>
         
         {/* Voice Settings */}
